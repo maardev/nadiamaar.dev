@@ -8,7 +8,7 @@ const config: ServicePageConfig = {
   title: 'Sviluppo Store Shopify',
   subtitle: 'Store ottimizzati per la conversione',
   description:
-    'Progettiamo e sviluppiamo store Shopify su misura che convertono visitatori in clienti. Dal design alla configurazione avanzata, ogni dettaglio è pensato per massimizzare le vendite e offrire un'esperienza d'acquisto memorabile.',
+    'Progettiamo e sviluppiamo store Shopify su misura che convertono visitatori in clienti. Dal design alla configurazione avanzata, ogni dettaglio è pensato per massimizzare le vendite e offrire una esperienza di acquisto memorabile',
   features: [
     {
       icon: Zap,
