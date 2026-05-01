@@ -1,17 +1,17 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react'
 import { cn } from '@/utilities/ui'
 import { Button } from '@/components/ui/button'
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.5, ease: 'easeInOut' },
+    transition: { delay: i * 0.08, duration: 0.5, ease: 'easeInOut' as const },
   }),
 }
 
