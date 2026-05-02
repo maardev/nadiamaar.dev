@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { Clock, Search, Database, Shield } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/e-commerce/migrazione' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'E-commerce',
-  title: 'Migrazione E-commerce',
-  subtitle: 'Trasferimento sicuro da qualsiasi piattaforma',
-  description:
-    'Migrare da Magento, WooCommerce o altre piattaforme non deve essere un rischio. Gestiamo l\'intero processo con zero downtime, senza perdere dati e senza impatti sul tuo posizionamento SEO.',
-  features: [
-    {
-      icon: Clock,
-      title: 'Zero downtime',
-      description: 'Il tuo store rimane operativo durante tutta la fase di migrazione.',
-    },
-    {
-      icon: Search,
-      title: 'SEO preservato',
-      description: 'Redirect 301, struttura URL e ranking mantenuti intatti dopo il trasferimento.',
-    },
-    {
-      icon: Database,
-      title: 'Dati integri',
-      description: 'Prodotti, clienti, ordini e cronologia migrati con precisione chirurgica.',
-    },
-    {
-      icon: Shield,
-      title: 'Supporto post-migrazione',
-      description: 'Assistenza dedicata per 30 giorni dopo il go-live per risolvere ogni imprevisto.',
-    },
-  ],
-  featuredTitle: 'Migra il tuo store in sicurezza',
-  featuredDescription:
-    'Contattaci per una valutazione gratuita della tua migrazione. Ti diciamo tempi, costi e rischi prima di iniziare.',
-  featuredCta: 'Richiedi valutazione',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

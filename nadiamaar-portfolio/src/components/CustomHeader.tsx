@@ -12,130 +12,38 @@ import {
 	NavigationMenuList,
 	NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import {
-	LucideIcon,
-	ShoppingBag,
-	Repeat,
-	TrendingUp,
-	Plug,
-	Globe,
-	Layout,
-	PenTool,
-	Sparkles,
-	Bot,
-	FileText,
-	Workflow,
-	BarChart3,
-	Search,
-	Link2,
-	Share2,
-	Megaphone,
-	ArrowRight,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── CMS data types (populated from Payload with depth: 2) ───────────────────
 
-type LinkItem = {
+export type CmsLinkItem = {
 	title: string;
 	href: string;
-	icon: LucideIcon;
+	iconUrl?: string | null;
 	description?: string;
 };
 
-type Featured = {
-	title: string;
-	description: string;
-	href: string;
-	cta: string;
+export type CmsFeatured = {
+	title?: string;
+	description?: string;
+	href?: string;
+	cta?: string;
 };
 
-type MegaSection = {
+export type CmsColumn = {
+	links: CmsLinkItem[];
+};
+
+export type CmsNavItem = {
 	label: string;
-	sublabel: string;
-	items: LinkItem[];
-	featured: Featured;
+	sublabel?: string;
+	columns: CmsColumn[];
+	featured?: CmsFeatured;
 };
-
-// ─── Mega-menu data ───────────────────────────────────────────────────────────
-
-const ecommerceLinks: LinkItem[] = [
-	{ title: 'Sviluppo Store Shopify', href: '/servizi/e-commerce/sviluppo-store', description: 'Store ottimizzati per la conversione', icon: ShoppingBag },
-	{ title: 'Migrazione E-commerce', href: '/servizi/e-commerce/migrazione', description: 'Trasferimento da altre piattaforme', icon: Repeat },
-	{ title: 'Ottimizzazione Conversioni', href: '/servizi/e-commerce/ottimizzazione', description: 'CRO, A/B testing e performance', icon: TrendingUp },
-	{ title: 'Integrazioni Custom', href: '/servizi/e-commerce/integrazioni', description: 'API, plugin e funzionalità su misura', icon: Plug },
-];
-
-const sitiAziendaliLinks: LinkItem[] = [
-	{ title: 'Siti Vetrina', href: '/servizi/siti-aziendali/vetrina', description: 'Presenza online elegante e professionale', icon: Globe },
-	{ title: 'Landing Page', href: '/servizi/siti-aziendali/landing-page', description: 'Pagine ad alta conversione', icon: Layout },
-	{ title: 'Blog Aziendali', href: '/servizi/siti-aziendali/blog', description: 'Content marketing che funziona', icon: PenTool },
-	{ title: 'Restyling Web', href: '/servizi/siti-aziendali/restyling', description: 'Rinnova il tuo sito attuale', icon: Sparkles },
-];
-
-const aiServicesLinks: LinkItem[] = [
-	{ title: 'Chatbot Intelligenti', href: '/servizi/ai/chatbot', description: 'Customer care attivo 24/7', icon: Bot },
-	{ title: 'AI Content Generation', href: '/servizi/ai/content-gen', description: 'Articoli, immagini e video su scala', icon: FileText },
-	{ title: 'Automazione Workflow', href: '/servizi/ai/automazione-workflow', description: 'Risparmia tempo sui processi ripetitivi', icon: Workflow },
-	{ title: 'Analisi Predittiva', href: '/servizi/ai/analisi-predittiva', description: 'Decisioni basate sui dati', icon: BarChart3 },
-];
-
-const seoSocialLinks: LinkItem[] = [
-	{ title: 'SEO On-Page', href: '/servizi/seo-social/on-page', description: 'Ottimizzazione contenuti e tecnica', icon: Search },
-	{ title: 'Link Building', href: '/servizi/seo-social/link-building', description: 'Autorità di dominio e backlink', icon: Link2 },
-	{ title: 'Social Media Management', href: '/servizi/seo-social/social-media', description: 'Strategia e gestione contenuti', icon: Share2 },
-	{ title: 'Google & Meta Ads', href: '/servizi/seo-social/google-meta-ads', description: 'Campagne paid ad alta resa', icon: Megaphone },
-];
-
-const megaSections: MegaSection[] = [
-	{
-		label: 'E-commerce',
-		sublabel: 'Soluzioni Shopify',
-		items: ecommerceLinks,
-		featured: {
-			title: 'Audit Shopify Gratuito',
-			description: 'Analizziamo il tuo store e ti mostriamo come aumentare le conversioni del 30% in 90 giorni.',
-			href: '/servizi/e-commerce/sviluppo-store',
-			cta: 'Prenota audit',
-		},
-	},
-	{
-		label: 'Siti Aziendali',
-		sublabel: 'Professionalità Web',
-		items: sitiAziendaliLinks,
-		featured: {
-			title: 'Demo live in 48h',
-			description: 'Ricevi un mockup interattivo del tuo nuovo sito in due giorni lavorativi.',
-			href: '/servizi/siti-aziendali/vetrina',
-			cta: 'Richiedi demo',
-		},
-	},
-	{
-		label: 'Servizi AI',
-		sublabel: 'Automazione e Contenuti',
-		items: aiServicesLinks,
-		featured: {
-			title: 'Chatbot AI personalizzato',
-			description: 'Allenato sui tuoi dati aziendali, integrato con WhatsApp, sito e CRM.',
-			href: '/servizi/ai/chatbot',
-			cta: 'Scopri come',
-		},
-	},
-	{
-		label: 'SEO & Social',
-		sublabel: 'Crescita Digitale',
-		items: seoSocialLinks,
-		featured: {
-			title: 'Strategia SEO gratuita',
-			description: 'Un piano di crescita organica e paid pensato per il tuo settore. Senza impegno.',
-			href: '/servizi/seo-social/on-page',
-			cta: 'Voglio la strategia',
-		},
-	},
-];
 
 // ─── Mega Section ─────────────────────────────────────────────────────────────
 
-function MegaSectionItem({ section }: { section: MegaSection }) {
+function MegaSectionItem({ item }: { item: CmsNavItem }) {
 	return (
 		<NavigationMenuItem>
 			<NavigationMenuTrigger
@@ -146,96 +54,121 @@ function MegaSectionItem({ section }: { section: MegaSection }) {
 					'transition-all duration-200',
 				)}
 			>
-				{section.label}
+				{item.label}
 			</NavigationMenuTrigger>
 
 			<NavigationMenuContent className="!bg-transparent !border-0 !shadow-none p-0">
 				<div
 					className={cn(
-						'relative w-[640px] overflow-hidden rounded-2xl',
+						'relative overflow-hidden rounded-2xl',
 						'border border-[#805CF6]/25',
 						'bg-[#0a0a0f]/80 backdrop-blur-2xl',
 						'shadow-[0_0_60px_-15px_rgba(128,92,246,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]',
+						item.featured ? 'w-[640px]' : 'w-[480px]',
 					)}
 				>
 					{/* Ambient glow */}
 					<div className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-[#805CF6]/25 blur-3xl" />
 					<div className="pointer-events-none absolute -bottom-24 right-0 h-48 w-48 rounded-full bg-fuchsia-500/15 blur-3xl" />
 
-					<div className="relative grid grid-cols-[1fr_240px]">
-						{/* Left — links grid */}
+					<div className={cn('relative', item.featured && 'grid grid-cols-[1fr_240px]')}>
+						{/* Left — columns */}
 						<div className="p-3">
-							<p className="px-3 pt-2 pb-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[#805CF6]">
-								{section.sublabel}
-							</p>
+							{item.sublabel && (
+								<p className="px-3 pt-2 pb-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[#805CF6]">
+									{item.sublabel}
+								</p>
+							)}
 
-							<ul className="grid grid-cols-2 gap-1">
-								{section.items.map((item) => (
-									<li key={item.title}>
-										<NavigationMenuLink asChild>
-											<Link
-												href={item.href}
-												className={cn(
-													'group flex items-start gap-3 rounded-lg p-3',
-													'transition-colors duration-150',
-													'hover:bg-white/[0.04]',
-												)}
-											>
-												<div
-													className={cn(
-														'flex size-9 shrink-0 items-center justify-center rounded-lg',
-														'border border-[#805CF6]/20 bg-[#805CF6]/10',
-														'text-violet-300 transition-all duration-200',
-														'group-hover:border-[#805CF6]/50 group-hover:bg-[#805CF6]/20',
-														'group-hover:text-violet-200',
-														'group-hover:shadow-[0_0_15px_-2px_rgba(128,92,246,0.6)]',
-													)}
-												>
-													<item.icon className="size-4" />
-												</div>
-												<div className="min-w-0">
-													<p className="text-sm font-medium text-white truncate">{item.title}</p>
-													<p className="mt-0.5 text-xs leading-snug text-white/45">
-														{item.description}
-													</p>
-												</div>
-											</Link>
-										</NavigationMenuLink>
-									</li>
+							<div className={cn('flex gap-1', item.columns.length === 1 && 'flex-col')}>
+								{item.columns.map((col, colIdx) => (
+									<ul key={colIdx} className="flex flex-1 flex-col gap-1">
+										{col.links.map((link) => (
+											<li key={link.href}>
+												<NavigationMenuLink asChild>
+													<Link
+														href={link.href}
+														className={cn(
+															'group flex items-start gap-3 rounded-lg p-3',
+															'transition-colors duration-150',
+															'hover:bg-white/[0.04]',
+														)}
+													>
+														<div
+															className={cn(
+																'flex size-9 shrink-0 items-center justify-center rounded-lg',
+																'border border-[#805CF6]/20 bg-[#805CF6]/10',
+																'text-violet-300 transition-all duration-200',
+																'group-hover:border-[#805CF6]/50 group-hover:bg-[#805CF6]/20',
+																'group-hover:text-violet-200',
+																'group-hover:shadow-[0_0_15px_-2px_rgba(128,92,246,0.6)]',
+															)}
+														>
+															{link.iconUrl ? (
+																<img
+																	src={link.iconUrl}
+																	alt=""
+																	className="size-4 object-contain"
+																/>
+															) : (
+																<div className="size-4" />
+															)}
+														</div>
+														<div className="min-w-0">
+															<p className="text-sm font-medium text-white truncate">{link.title}</p>
+															{link.description && (
+																<p className="mt-0.5 text-xs leading-snug text-white/45">
+																	{link.description}
+																</p>
+															)}
+														</div>
+													</Link>
+												</NavigationMenuLink>
+											</li>
+										))}
+									</ul>
 								))}
-							</ul>
+							</div>
 						</div>
 
 						{/* Right — featured CTA */}
-						<div
-							className={cn(
-								'relative flex flex-col p-5',
-								'border-l border-[#805CF6]/15',
-								'bg-gradient-to-br from-[#805CF6]/12 via-transparent to-transparent',
-							)}
-						>
-							<p className="mb-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[#805CF6]">
-								In evidenza
-							</p>
-							<p className="mb-2 text-sm font-medium text-white">{section.featured.title}</p>
-							<p className="mb-5 flex-1 text-xs leading-relaxed text-white/50">
-								{section.featured.description}
-							</p>
-							<Link
-								href={section.featured.href}
+						{item.featured && (
+							<div
 								className={cn(
-									'inline-flex items-center justify-between gap-1.5 rounded-lg',
-									'border border-[#805CF6]/30 bg-[#805CF6]/10 px-3 py-2',
-									'text-xs font-medium text-violet-200',
-									'transition-all duration-200',
-									'hover:border-[#805CF6]/60 hover:bg-[#805CF6]/20',
-									'hover:shadow-[0_0_20px_-2px_rgba(128,92,246,0.5)]',
+									'relative flex flex-col p-5',
+									'border-l border-[#805CF6]/15',
+									'bg-gradient-to-br from-[#805CF6]/12 via-transparent to-transparent',
 								)}
 							>
-								{section.featured.cta}
-								<ArrowRight className="size-3" />
-							</Link>
-						</div>
+								<p className="mb-3 text-[10px] font-medium uppercase tracking-[0.18em] text-[#805CF6]">
+									In evidenza
+								</p>
+								{item.featured.title && (
+									<p className="mb-2 text-sm font-medium text-white">{item.featured.title}</p>
+								)}
+								{item.featured.description && (
+									<p className="mb-5 flex-1 text-xs leading-relaxed text-white/50">
+										{item.featured.description}
+									</p>
+								)}
+								{item.featured.cta && item.featured.href && (
+									<Link
+										href={item.featured.href}
+										className={cn(
+											'inline-flex items-center justify-between gap-1.5 rounded-lg',
+											'border border-[#805CF6]/30 bg-[#805CF6]/10 px-3 py-2',
+											'text-xs font-medium text-violet-200',
+											'transition-all duration-200',
+											'hover:border-[#805CF6]/60 hover:bg-[#805CF6]/20',
+											'hover:shadow-[0_0_20px_-2px_rgba(128,92,246,0.5)]',
+										)}
+									>
+										{item.featured.cta}
+										<ArrowRight className="size-3" />
+									</Link>
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 			</NavigationMenuContent>
@@ -243,9 +176,13 @@ function MegaSectionItem({ section }: { section: MegaSection }) {
 	);
 }
 
-// ─── Header ───────────────────────────────────────────────────────────────────
+// ─── CustomHeader ─────────────────────────────────────────────────────────────
 
-export function Header() {
+interface CustomHeaderProps {
+	navItems: CmsNavItem[];
+}
+
+export function CustomHeader({ navItems }: CustomHeaderProps) {
 	const [open, setOpen] = React.useState(false);
 	const scrolled = useScroll(10);
 
@@ -279,8 +216,8 @@ export function Header() {
 
 					<NavigationMenu className="hidden md:flex">
 						<NavigationMenuList>
-							{megaSections.map((section) => (
-								<MegaSectionItem key={section.label} section={section} />
+							{navItems.map((item) => (
+								<MegaSectionItem key={item.label} item={item} />
 							))}
 							<NavigationMenuItem>
 								<NavigationMenuLink asChild>
@@ -331,22 +268,24 @@ export function Header() {
 					aria-controls="mobile-menu"
 					aria-label="Apri menu"
 				>
-					{/* <MenuToggleIcon open={open} className="size-5" duration={300} /> */}
+					<span className="sr-only">Menu</span>
 				</Button>
 			</nav>
 
 			<MobileMenu open={open}>
 				<NavigationMenu className="max-w-full">
 					<div className="flex w-full flex-col gap-y-6">
-						{megaSections.map((section) => (
-							<div key={section.label} className="flex flex-col gap-2">
-								<span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#805CF6]">
-									{section.sublabel}
-								</span>
-								<span className="text-base font-medium text-white">{section.label}</span>
-								{section.items.map((link) => (
-									<MobileListItem key={link.title} {...link} />
-								))}
+						{navItems.map((item) => (
+							<div key={item.label} className="flex flex-col gap-2">
+								{item.sublabel && (
+									<span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#805CF6]">
+										{item.sublabel}
+									</span>
+								)}
+								<span className="text-base font-medium text-white">{item.label}</span>
+								{item.columns.flatMap((col) =>
+									col.links.map((link) => <MobileListItem key={link.href} {...link} />),
+								)}
 							</div>
 						))}
 					</div>
@@ -380,12 +319,7 @@ export function Header() {
 
 // ─── Mobile menu (portal) ─────────────────────────────────────────────────────
 
-type MobileMenuProps = {
-	open: boolean;
-	children: React.ReactNode;
-};
-
-function MobileMenu({ open, children }: MobileMenuProps) {
+function MobileMenu({ open, children }: { open: boolean; children: React.ReactNode }) {
 	if (!open || typeof window === 'undefined') return null;
 
 	return createPortal(
@@ -398,9 +332,7 @@ function MobileMenu({ open, children }: MobileMenuProps) {
 				'overflow-y-auto',
 			)}
 		>
-			<div className="data-[slot=open]:animate-in data-[slot=open]:zoom-in-97 ease-out flex min-h-full flex-col justify-between p-6">
-				{children}
-			</div>
+			<div className="flex min-h-full flex-col justify-between p-6">{children}</div>
 		</div>,
 		document.body,
 	);
@@ -408,7 +340,7 @@ function MobileMenu({ open, children }: MobileMenuProps) {
 
 // ─── Mobile list item ─────────────────────────────────────────────────────────
 
-function MobileListItem({ title, description, icon: Icon, href }: LinkItem) {
+function MobileListItem({ title, description, iconUrl, href }: CmsLinkItem) {
 	return (
 		<Link
 			href={href}
@@ -418,7 +350,11 @@ function MobileListItem({ title, description, icon: Icon, href }: LinkItem) {
 			)}
 		>
 			<div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-[#805CF6]/25 bg-[#805CF6]/10 text-violet-300">
-				<Icon className="size-4" />
+				{iconUrl ? (
+					<img src={iconUrl} alt="" className="size-4 object-contain" />
+				) : (
+					<div className="size-4" />
+				)}
 			</div>
 			<div className="flex flex-col">
 				<span className="text-sm font-medium text-white">{title}</span>

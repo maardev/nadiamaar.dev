@@ -5,6 +5,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import { settingsField } from '@/blocks/shared/settingsField'
 
 export const Banner: Block = {
   slug: 'banner',
@@ -32,6 +33,7 @@ export const Banner: Block = {
       label: false,
       required: true,
     },
+    settingsField,
   ],
   interfaceName: 'BannerBlock',
 }

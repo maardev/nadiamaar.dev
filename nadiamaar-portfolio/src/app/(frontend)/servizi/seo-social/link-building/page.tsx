@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { Link2, Users, TrendingUp, Activity } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/seo-social/link-building' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'SEO & Social',
-  title: 'Link Building',
-  subtitle: 'Costruisci l\'autorità del tuo dominio',
-  description:
-    'Backlink di qualità da siti autorevoli del tuo settore. Strategie white-hat che aumentano il Domain Authority, migliorano il ranking in modo sostenibile e resistono agli aggiornamenti di Google.',
-  features: [
-    {
-      icon: Link2,
-      title: 'Backlink di qualità',
-      description: 'Solo link da siti con alta autorità e pertinenza tematica al tuo settore.',
-    },
-    {
-      icon: Users,
-      title: 'Outreach mirato',
-      description: 'Campagne di digital PR per ottenere menzioni e link su media di settore.',
-    },
-    {
-      icon: TrendingUp,
-      title: 'Domain Authority',
-      description: 'Crescita costante e misurabile del profilo backlink nel tempo.',
-    },
-    {
-      icon: Activity,
-      title: 'Monitoraggio costante',
-      description: 'Tracciamento del profilo link e rimozione di eventuali link tossici.',
-    },
-  ],
-  featuredTitle: 'Analisi gratuita del tuo profilo backlink',
-  featuredDescription:
-    'Ti mostriamo lo stato attuale dei tuoi link, i gap rispetto ai competitor e le opportunità immediate da cogliere.',
-  featuredCta: 'Analizza i miei link',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

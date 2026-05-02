@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { settingsField } from '@/blocks/shared/settingsField'
+
 export const Code: Block = {
   slug: 'code',
   interfaceName: 'CodeBlock',
@@ -29,5 +31,6 @@ export const Code: Block = {
       label: false,
       required: true,
     },
+    settingsField,
   ],
 }

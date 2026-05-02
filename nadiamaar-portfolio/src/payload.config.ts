@@ -8,6 +8,8 @@ import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { ServicePages } from './collections/ServicePages'
+import { StaticPages } from './collections/StaticPages'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -60,9 +62,12 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
+      // Serverless environments (Vercel) create a new pool per invocation.
+      // Limit to 1 connection to avoid exhausting Neon's connection limit.
+      max: process.env.VERCEL ? 1 : 10,
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, ServicePages, StaticPages, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,

@@ -12,6 +12,7 @@ import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { settingsField } from '@/blocks/shared/settingsField'
 
 import {
   MetaDescriptionField,
@@ -80,6 +81,10 @@ export const Pages: CollectionConfig<'pages'> = {
             },
           ],
           label: 'Content',
+        },
+        {
+          label: 'Visual Settings',
+          fields: [settingsField],
         },
         {
           name: 'meta',

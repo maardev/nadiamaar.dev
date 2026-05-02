@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { Megaphone, Target, GitBranch, TrendingUp } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/seo-social/google-meta-ads' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'SEO & Social',
-  title: 'Google & Meta Ads',
-  subtitle: 'Campagne paid che portano risultati misurabili',
-  description:
-    'Campagne Google Search, Display e Meta Ads gestite da esperti certificati. Targeting preciso, creatività che convertono e ottimizzazione continua per massimizzare il ROAS e il ROI di ogni euro investito.',
-  features: [
-    {
-      icon: Megaphone,
-      title: 'Campagne su misura',
-      description: 'Struttura e strategia costruite attorno ai tuoi obiettivi e al tuo budget.',
-    },
-    {
-      icon: Target,
-      title: 'Targeting avanzato',
-      description: 'Audience personalizzate, lookalike e remarketing per raggiungere chi converte.',
-    },
-    {
-      icon: GitBranch,
-      title: 'A/B Testing Ads',
-      description: 'Test continui su copy, creatività e landing page per ottimizzare le performance.',
-    },
-    {
-      icon: TrendingUp,
-      title: 'ROI trasparente',
-      description: 'Report settimanali con metriche chiare: ROAS, CPA, CPL e revenue generate.',
-    },
-  ],
-  featuredTitle: 'Campagna di prova senza rischi',
-  featuredDescription:
-    'Gestiamo il tuo primo mese di campagne con supervisione dedicata. Ti mostriamo i risultati prima di qualsiasi impegno a lungo termine.',
-  featuredCta: 'Inizia la campagna',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

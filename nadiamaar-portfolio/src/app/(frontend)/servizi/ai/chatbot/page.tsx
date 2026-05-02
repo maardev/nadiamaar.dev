@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { Clock, Languages, Database, Activity } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/ai/chatbot' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'Servizi AI',
-  title: 'Chatbot Intelligenti',
-  subtitle: 'Assistenza clienti attiva 24 ore su 24, 7 giorni su 7',
-  description:
-    'Chatbot AI addestrati sui tuoi dati aziendali, integrabili con WhatsApp, il tuo sito e il CRM. Rispondono, qualificano i lead e gestiscono le richieste anche quando il tuo team è offline.',
-  features: [
-    {
-      icon: Clock,
-      title: 'Disponibile 24/7',
-      description: 'Il chatbot risponde istantaneamente a qualsiasi ora, senza interruzioni.',
-    },
-    {
-      icon: Languages,
-      title: 'Multilingue',
-      description: 'Supporto nativo in italiano, inglese e altre lingue per clienti internazionali.',
-    },
-    {
-      icon: Database,
-      title: 'Integrazione CRM',
-      description: 'I dati delle conversazioni fluiscono direttamente nel tuo CRM in tempo reale.',
-    },
-    {
-      icon: Activity,
-      title: 'Analisi conversazioni',
-      description: 'Dashboard con metriche di soddisfazione, topic frequenti e performance.',
-    },
-  ],
-  featuredTitle: 'Chatbot AI personalizzato per la tua azienda',
-  featuredDescription:
-    'Allenato sui tuoi dati, integrato con WhatsApp, sito e CRM. Ti mostriamo una demo live basata sul tuo settore.',
-  featuredCta: 'Vedi la demo',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

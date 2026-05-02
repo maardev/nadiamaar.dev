@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { Search, FileText, Code, Gauge } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/seo-social/on-page' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'SEO & Social',
-  title: 'SEO On-Page',
-  subtitle: 'Ottimizzazione tecnica e contenutistica',
-  description:
-    'Dall\'audit tecnico alla struttura dei contenuti, ottimizziamo ogni aspetto on-page del tuo sito per scalare le posizioni su Google e portare traffico organico qualificato giorno dopo giorno.',
-  features: [
-    {
-      icon: Search,
-      title: 'Keyword research',
-      description: 'Analisi delle parole chiave più profittevoli per il tuo settore e target.',
-    },
-    {
-      icon: FileText,
-      title: 'Ottimizzazione contenuti',
-      description: 'Title, meta description, heading e testi ottimizzati per le query target.',
-    },
-    {
-      icon: Code,
-      title: 'Structured data',
-      description: 'Implementazione di schema markup per rich snippet e maggiore visibilità.',
-    },
-    {
-      icon: Gauge,
-      title: 'Core Web Vitals',
-      description: 'Ottimizzazione LCP, INP e CLS per soddisfare i requisiti di Google.',
-    },
-  ],
-  featuredTitle: 'Strategia SEO gratuita per il tuo settore',
-  featuredDescription:
-    'Un piano di crescita organica pensato per il tuo mercato. Keyword, competitor analysis e roadmap d\'azione. Senza impegno.',
-  featuredCta: 'Voglio la strategia',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

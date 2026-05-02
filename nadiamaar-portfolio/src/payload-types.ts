@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    'service-pages': ServicePage;
+    'static-pages': StaticPage;
     media: Media;
     categories: Category;
     users: User;
@@ -91,6 +93,8 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    'service-pages': ServicePagesSelect<false> | ServicePagesSelect<true>;
+    'static-pages': StaticPagesSelect<false> | StaticPagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -202,6 +206,34 @@ export interface Page {
     media?: (number | null) | Media;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   meta?: {
     title?: string | null;
     /**
@@ -483,6 +515,34 @@ export interface CallToActionBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
@@ -533,6 +593,34 @@ export interface ContentBlock {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
@@ -543,6 +631,34 @@ export interface ContentBlock {
  */
 export interface MediaBlock {
   media: number | Media;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -577,6 +693,34 @@ export interface ArchiveBlock {
         value: number | Post;
       }[]
     | null;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
@@ -603,6 +747,34 @@ export interface FormBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
@@ -780,6 +952,206 @@ export interface Form {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "service-pages".
+ */
+export interface ServicePage {
+  id: number;
+  title: string;
+  /**
+   * Percorso URL completo, es. servizi/ai/chatbot
+   */
+  slug: string;
+  category: string;
+  subtitle: string;
+  description: string;
+  features?:
+    | {
+        icon:
+          | 'Activity'
+          | 'BarChart3'
+          | 'Calendar'
+          | 'Clock'
+          | 'Code'
+          | 'Database'
+          | 'FileText'
+          | 'Gauge'
+          | 'GitBranch'
+          | 'Globe'
+          | 'Image'
+          | 'Languages'
+          | 'Layers'
+          | 'Link2'
+          | 'Mail'
+          | 'Megaphone'
+          | 'MessageSquare'
+          | 'Palette'
+          | 'Plug'
+          | 'Search'
+          | 'Settings'
+          | 'Share2'
+          | 'Shield'
+          | 'Sparkles'
+          | 'Target'
+          | 'TrendingUp'
+          | 'Users'
+          | 'Video'
+          | 'Workflow'
+          | 'Zap';
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  featuredTitle: string;
+  featuredDescription: string;
+  featuredCta?: string | null;
+  featuredHref?: string | null;
+  /**
+   * Blocchi aggiuntivi visualizzati sotto il template standard
+   */
+  layout?: (CallToActionBlock | ContentBlock | MediaBlock)[] | null;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Pagine statiche del sito: Prezzi, Contatti, Progetti.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "static-pages".
+ */
+export interface StaticPage {
+  id: number;
+  title: string;
+  /**
+   * Identifica la pagina statica. Non modificare dopo la creazione.
+   */
+  slug: 'prezzi' | 'contatti' | 'progetti';
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  /**
+   * Visibile solo per la pagina /prezzi.
+   */
+  plans?:
+    | {
+        name: string;
+        price: string;
+        period?: string | null;
+        description?: string | null;
+        features?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        cta?: string | null;
+        highlighted?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  contactInfo?: {
+    email?: string | null;
+    phone?: string | null;
+    address?: string | null;
+    /**
+     * Es. Rispondiamo entro 24 ore lavorative.
+     */
+    responseTime?: string | null;
+  };
+  /**
+   * Visibile solo per la pagina /progetti.
+   */
+  projects?:
+    | {
+        title: string;
+        category?: string | null;
+        description?: string | null;
+        tags?:
+          | {
+              tag: string;
+              id?: string | null;
+            }[]
+          | null;
+        url?: string | null;
+        /**
+         * Es. from-violet-500/20 to-fuchsia-500/10
+         */
+        gradient?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -980,6 +1352,14 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'service-pages';
+        value: number | ServicePage;
+      } | null)
+    | ({
+        relationTo: 'static-pages';
+        value: number | StaticPage;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -1090,6 +1470,21 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
       };
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
   meta?:
     | T
     | {
@@ -1125,6 +1520,21 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1151,6 +1561,21 @@ export interface ContentBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1160,6 +1585,21 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1174,6 +1614,21 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
   categories?: T;
   limit?: T;
   selectedDocs?: T;
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1185,6 +1640,21 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1215,6 +1685,132 @@ export interface PostsSelect<T extends boolean = true> {
       };
   generateSlug?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "service-pages_select".
+ */
+export interface ServicePagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  subtitle?: T;
+  description?: T;
+  features?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  featuredTitle?: T;
+  featuredDescription?: T;
+  featuredCta?: T;
+  featuredHref?: T;
+  layout?:
+    | T
+    | {
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+      };
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "static-pages_select".
+ */
+export interface StaticPagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  heroTitle?: T;
+  heroSubtitle?: T;
+  plans?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        period?: T;
+        description?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        cta?: T;
+        highlighted?: T;
+        id?: T;
+      };
+  contactInfo?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        address?: T;
+        responseTime?: T;
+      };
+  projects?:
+    | T
+    | {
+        title?: T;
+        category?: T;
+        description?: T;
+        tags?:
+          | T
+          | {
+              tag?: T;
+              id?: T;
+            };
+        url?: T;
+        gradient?: T;
+        id?: T;
+      };
+  settings?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontSize?: T;
+        colorBackground?: T;
+        colorText?: T;
+        colorAccent?: T;
+        paddingTop?: T;
+        paddingBottom?: T;
+        bgImageUrl?: T;
+        bgImageFit?: T;
+        customCode?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1639,20 +2235,47 @@ export interface Header {
   id: number;
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
+        label: string;
+        sublabel?: string | null;
+        columns?:
+          | {
+              links?:
+                | {
+                    title: string;
+                    description?: string | null;
+                    icon?: (number | null) | Media;
+                    linkType?: ('reference' | 'custom') | null;
+                    reference?:
+                      | ({
+                          relationTo: 'pages';
+                          value: number | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'service-pages';
+                          value: number | ServicePage;
+                        } | null);
+                    url?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        featured?: {
+          title?: string | null;
+          description?: string | null;
+          cta?: string | null;
+          linkType?: ('reference' | 'custom') | null;
           reference?:
             | ({
                 relationTo: 'pages';
                 value: number | Page;
               } | null)
             | ({
-                relationTo: 'posts';
-                value: number | Post;
+                relationTo: 'service-pages';
+                value: number | ServicePage;
               } | null);
           url?: string | null;
-          label: string;
         };
         id?: string | null;
       }[]
@@ -1697,14 +2320,33 @@ export interface HeaderSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
-        link?:
+        label?: T;
+        sublabel?: T;
+        columns?:
           | T
           | {
-              type?: T;
-              newTab?: T;
+              links?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    icon?: T;
+                    linkType?: T;
+                    reference?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        featured?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              cta?: T;
+              linkType?: T;
               reference?: T;
               url?: T;
-              label?: T;
             };
         id?: T;
       };
@@ -1761,6 +2403,14 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'service-pages';
+          value: number | ServicePage;
+        } | null)
+      | ({
+          relationTo: 'static-pages';
+          value: number | StaticPage;
         } | null);
     global?: string | null;
     user?: (number | null) | User;
@@ -1788,6 +2438,34 @@ export interface BannerBlock {
     };
     [k: string]: unknown;
   };
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'banner';
@@ -1799,6 +2477,34 @@ export interface BannerBlock {
 export interface CodeBlock {
   language?: ('typescript' | 'javascript' | 'css') | null;
   code: string;
+  /**
+   * Typography, colours, spacing and background for this block.
+   */
+  settings?: {
+    fontFamily?:
+      | (
+          | 'inherit'
+          | "'Inter', sans-serif"
+          | "'Playfair Display', serif"
+          | "'Space Grotesk', sans-serif"
+          | "'Montserrat', sans-serif"
+          | "'Roboto Mono', monospace"
+        )
+      | null;
+    fontWeight?: ('300' | '400' | '500' | '600' | '700' | '900') | null;
+    fontSize?: number | null;
+    colorBackground?: string | null;
+    colorText?: string | null;
+    colorAccent?: string | null;
+    paddingTop?: number | null;
+    paddingBottom?: number | null;
+    bgImageUrl?: string | null;
+    bgImageFit?: ('cover' | 'contain' | 'fill') | null;
+    /**
+     * Injected after the block. Supports raw HTML and <script> tags.
+     */
+    customCode?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'code';

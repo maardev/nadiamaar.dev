@@ -6,6 +6,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import { settingsField } from '@/blocks/shared/settingsField'
 
 export const Archive: Block = {
   slug: 'archive',
@@ -86,6 +87,7 @@ export const Archive: Block = {
       label: 'Selection',
       relationTo: ['posts'],
     },
+    settingsField,
   ],
   labels: {
     plural: 'Archives',

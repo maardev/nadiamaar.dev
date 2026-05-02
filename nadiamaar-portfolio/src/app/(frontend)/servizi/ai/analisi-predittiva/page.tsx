@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { TrendingUp, Activity, Shield, BarChart3 } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/ai/analisi-predittiva' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'Servizi AI',
-  title: 'Analisi Predittiva',
-  subtitle: 'Decisioni strategiche basate sui dati',
-  description:
-    'Con modelli di machine learning e business intelligence, trasformiamo i tuoi dati storici in previsioni affidabili che guidano le decisioni strategiche del tuo business e ti danno un vantaggio competitivo reale.',
-  features: [
-    {
-      icon: TrendingUp,
-      title: 'Forecasting vendite',
-      description: 'Previsioni accurate di ricavi, domanda e trend per pianificare in anticipo.',
-    },
-    {
-      icon: Activity,
-      title: 'Dashboard real-time',
-      description: 'KPI e metriche chiave aggiornati in tempo reale su una singola dashboard.',
-    },
-    {
-      icon: Shield,
-      title: 'Risk management',
-      description: 'Modelli di rilevamento anomalie per identificare rischi prima che diventino problemi.',
-    },
-    {
-      icon: BarChart3,
-      title: 'Insight competitivi',
-      description: 'Analisi del mercato e dei competitor per posizionarti strategicamente.',
-    },
-  ],
-  featuredTitle: 'I tuoi dati valgono più di quanto pensi',
-  featuredDescription:
-    'Mostraci i dati che hai. Ti mostriamo le previsioni che puoi ottenere e le decisioni che potresti prendere diversamente.',
-  featuredCta: 'Analizza i miei dati',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

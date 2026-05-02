@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { Search, Sparkles, TrendingUp, Gauge } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/siti-aziendali/restyling' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'Siti Aziendali',
-  title: 'Restyling Web',
-  subtitle: 'Rinnova il tuo sito senza perdere nulla',
-  description:
-    'Il tuo sito è datato, lento o non converte come dovrebbe? Lo analizziamo, lo riprogettiam e lo migriamo preservando il tuo storico SEO e migliorando ogni metrica che conta davvero.',
-  features: [
-    {
-      icon: Search,
-      title: 'Audit completo',
-      description: 'Analisi tecnica, SEO e UX del sito attuale prima di intervenire.',
-    },
-    {
-      icon: Sparkles,
-      title: 'Nuovo design',
-      description: 'Restyling moderno che rispecchia i valori del tuo brand e cattura l\'attenzione.',
-    },
-    {
-      icon: TrendingUp,
-      title: 'SEO preservato',
-      description: 'Redirect e struttura ottimizzati per non perdere un solo punto di ranking.',
-    },
-    {
-      icon: Gauge,
-      title: 'Velocità ottimizzata',
-      description: 'Il nuovo sito è significativamente più veloce del precedente su ogni device.',
-    },
-  ],
-  featuredTitle: 'È ora di rinnovare la tua presenza online',
-  featuredDescription:
-    'Richiedi un\'analisi gratuita del tuo sito attuale. Ti mostriamo i 5 problemi principali e come risolverli.',
-  featuredCta: 'Analisi gratuita',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

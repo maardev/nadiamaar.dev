@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { Plug, Database, Layers, Zap } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/e-commerce/integrazioni' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'E-commerce',
-  title: 'Integrazioni Custom',
-  subtitle: 'Connetti il tuo store con ogni sistema',
-  description:
-    'API, webhook e connettori custom per integrare il tuo e-commerce con CRM, ERP, sistemi di pagamento e qualsiasi tool del tuo stack tecnologico. Automatizza i flussi e elimina il lavoro manuale.',
-  features: [
-    {
-      icon: Plug,
-      title: 'API RESTful',
-      description: 'Integrazione bidirezionale con qualsiasi sistema tramite API standard o custom.',
-    },
-    {
-      icon: Database,
-      title: 'CRM & ERP',
-      description: 'Sincronizzazione automatica con Salesforce, HubSpot, SAP e altri gestionali.',
-    },
-    {
-      icon: Layers,
-      title: 'Gateway di pagamento',
-      description: 'Stripe, PayPal, Klarna, Scalapay e metodi di pagamento locali integrati.',
-    },
-    {
-      icon: Zap,
-      title: 'Automazioni',
-      description: 'Trigger e workflow automatici per ordini, spedizioni, notifiche e resi.',
-    },
-  ],
-  featuredTitle: 'Hai un\'integrazione specifica in mente?',
-  featuredDescription:
-    'Raccontaci il tuo stack tecnologico. Progettiamo la soluzione di integrazione più efficiente per il tuo caso d\'uso.',
-  featuredCta: 'Parliamo del progetto',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

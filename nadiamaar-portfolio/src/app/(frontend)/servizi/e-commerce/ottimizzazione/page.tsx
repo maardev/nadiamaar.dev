@@ -1,43 +1,38 @@
-'use client'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import { ServicePageTemplate } from '@/components/ServicePageTemplate'
+import { mapIconName } from '@/utilities/iconMap'
 
-import { GitBranch, Activity, TrendingUp, Target } from 'lucide-react'
-import { ServicePageTemplate, type ServicePageConfig } from '@/components/ServicePageTemplate'
+export default async function Page() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'service-pages',
+    where: { slug: { equals: 'servizi/e-commerce/ottimizzazione' } },
+    limit: 1,
+    draft: false,
+  })
 
-const config: ServicePageConfig = {
-  category: 'E-commerce',
-  title: 'Ottimizzazione Conversioni',
-  subtitle: 'Trasforma il traffico esistente in fatturato',
-  description:
-    'Con CRO, A/B testing e analisi approfondita del comportamento utente, identifichiamo le frizioni nel tuo funnel di acquisto e le eliminiamo. Più conversioni, stesso traffico.',
-  features: [
-    {
-      icon: GitBranch,
-      title: 'A/B Testing',
-      description: 'Sperimentiamo varianti di pagine e flussi per trovare la combinazione vincente.',
-    },
-    {
-      icon: Activity,
-      title: 'Heatmap & Analytics',
-      description: 'Analisi del comportamento reale degli utenti su ogni pagina del tuo store.',
-    },
-    {
-      icon: TrendingUp,
-      title: 'Funnel Analysis',
-      description: 'Mappa completa del percorso d\'acquisto con identificazione dei punti di abbandono.',
-    },
-    {
-      icon: Target,
-      title: 'ROI misurabile',
-      description: 'Ogni ottimizzazione è tracciata e il ritorno sull\'investimento è documentato.',
-    },
-  ],
-  featuredTitle: 'Scopri dove stai perdendo vendite',
-  featuredDescription:
-    'Un audit CRO gratuito per identificare i 3 principali punti di abbandono nel tuo store. Risultati in 48 ore.',
-  featuredCta: 'Richiedi audit CRO',
-  featuredHref: '/contatti',
-}
+  const page = docs[0]
+  if (!page) notFound()
 
-export default function Page() {
-  return <ServicePageTemplate config={config} />
+  return (
+    <ServicePageTemplate
+      config={{
+        category: page.category,
+        title: page.title,
+        subtitle: page.subtitle,
+        description: page.description,
+        features: (page.features ?? []).map((f) => ({
+          icon: mapIconName(f.icon),
+          title: f.title,
+          description: f.description,
+        })),
+        featuredTitle: page.featuredTitle,
+        featuredDescription: page.featuredDescription,
+        featuredCta: page.featuredCta ?? undefined,
+        featuredHref: page.featuredHref ?? undefined,
+      }}
+    />
+  )
 }

@@ -6,6 +6,7 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import { settingsField } from '@/blocks/shared/settingsField'
 
 export const FormBlock: Block = {
   slug: 'formBlock',
@@ -40,6 +41,7 @@ export const FormBlock: Block = {
       }),
       label: 'Intro Content',
     },
+    settingsField,
   ],
   graphQL: {
     singularName: 'FormBlock',

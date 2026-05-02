@@ -12,6 +12,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { VisualEditorOverlay } from '@/components/VisualEditorOverlay'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -73,6 +74,9 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
+
+      {/* Listens for postMessage from Visual Editor and applies live style overrides */}
+      <VisualEditorOverlay />
 
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
