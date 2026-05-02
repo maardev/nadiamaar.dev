@@ -98,6 +98,7 @@ export const Header: GlobalConfig = {
             { name: 'title', type: 'text' },
             { name: 'description', type: 'textarea' },
             { name: 'cta', type: 'text', label: 'Testo CTA' },
+            // @ts-ignore
             ...linkFields,
           ],
         },
