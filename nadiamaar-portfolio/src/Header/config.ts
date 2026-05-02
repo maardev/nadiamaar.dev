@@ -84,6 +84,7 @@ export const Header: GlobalConfig = {
                   type: 'upload',
                   relationTo: 'media',
                 },
+                // @ts-ignore
                 ...linkFields,
               ],
             },
