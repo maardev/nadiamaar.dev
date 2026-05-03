@@ -1,0 +1,14 @@
+name = "nadiamaar-portfolio"
+main = ".worker-next/handler.mjs"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".worker-next/assets"
+binding = "ASSETS"
+
+[vars]
+NODE_ENV = "production"
+
+# DATABASE_URL и PAYLOAD_SECRET задай через Cloudflare Dashboard
+# или с помощью: wrangler secret put DATABASE_URL

@@ -5,8 +5,7 @@ export const settingsField: Field = {
   type: 'group',
   label: 'Visual Settings',
   admin: {
-    initCollapsed: true,
-    description: 'Typography, colours, spacing and background for this block.',
+    hideGutter: true,
   },
   fields: [
     // --- Typography ---

@@ -1,7 +1,12 @@
 import type { Payload, PayloadRequest } from 'payload'
 
 type FeatureInput = {
-  icon: string
+  icon:
+    | 'Activity' | 'BarChart3' | 'Calendar' | 'Clock' | 'Code' | 'Database'
+    | 'FileText' | 'Gauge' | 'GitBranch' | 'Globe' | 'Image' | 'Languages'
+    | 'Layers' | 'Link2' | 'Mail' | 'Megaphone' | 'MessageSquare' | 'Palette'
+    | 'Plug' | 'Search' | 'Settings' | 'Share2' | 'Shield' | 'Sparkles'
+    | 'Target' | 'TrendingUp' | 'Users' | 'Video' | 'Workflow' | 'Zap'
   title: string
   description: string
 }

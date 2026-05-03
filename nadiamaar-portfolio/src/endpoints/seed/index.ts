@@ -236,21 +236,12 @@ export const seed = async ({
       data: {
         navItems: [
           {
-            link: {
-              type: 'custom',
-              label: 'Posts',
-              url: '/posts',
-            },
+            label: 'Posts',
+            columns: [],
           },
           {
-            link: {
-              type: 'reference',
-              label: 'Contact',
-              reference: {
-                relationTo: 'pages',
-                value: contactPage.id,
-              },
-            },
+            label: 'Contact',
+            columns: [],
           },
         ],
       },
