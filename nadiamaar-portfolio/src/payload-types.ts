@@ -206,9 +206,6 @@ export interface Page {
     media?: (number | null) | Media;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -515,9 +512,6 @@ export interface CallToActionBlock {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -593,9 +587,6 @@ export interface ContentBlock {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -631,9 +622,6 @@ export interface ContentBlock {
  */
 export interface MediaBlock {
   media: number | Media;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -693,9 +681,6 @@ export interface ArchiveBlock {
         value: number | Post;
       }[]
     | null;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -747,9 +732,6 @@ export interface FormBlock {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -1013,9 +995,6 @@ export interface ServicePage {
    * Blocchi aggiuntivi visualizzati sotto il template standard
    */
   layout?: (CallToActionBlock | ContentBlock | MediaBlock)[] | null;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -1112,9 +1091,6 @@ export interface StaticPage {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -2438,9 +2414,6 @@ export interface BannerBlock {
     };
     [k: string]: unknown;
   };
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
@@ -2477,9 +2450,6 @@ export interface BannerBlock {
 export interface CodeBlock {
   language?: ('typescript' | 'javascript' | 'css') | null;
   code: string;
-  /**
-   * Typography, colours, spacing and background for this block.
-   */
   settings?: {
     fontFamily?:
       | (
